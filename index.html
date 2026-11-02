@@ -20,7 +20,7 @@ body[data-mode="doctora"]{
   --accent:#7A2E5C; --accent-ink:#FFFFFF; --line:#E6D3DF;
 }
 *{box-sizing:border-box;margin:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:var(--hdr,100px)}
 body{font:1.0625rem/1.65 var(--body);background:var(--bg);color:var(--ink);transition:background .35s,color .35s}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px}
@@ -37,6 +37,8 @@ nav a:hover{color:var(--accent)}
 .switch button{font:600 .85rem var(--body);border:0;background:none;color:var(--muted);padding:8px 14px;border-radius:999px;cursor:pointer;transition:background .25s,color .25s}
 .switch button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
 .switch.lang button{padding:8px 10px}
+.menu-t{display:none;font:600 .85rem var(--body);min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);cursor:pointer}
+.menu-t[aria-expanded="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 
 [data-view]{display:none;animation:swap .5s ease both}
 @keyframes swap{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -143,7 +145,6 @@ body.hc[data-mode="doctora"]{--accent:#5A0F3F}
 @media (max-width:720px){
   .gal{grid-template-columns:repeat(2,1fr)}
   .banner{padding:64px 0}
-  nav{display:none!important}
   .form .row{grid-template-columns:1fr}
   .hero-grid{grid-template-columns:1fr;gap:28px}
   .art{max-width:260px}
@@ -161,9 +162,15 @@ body.hc[data-mode="doctora"]{--accent:#5A0F3F}
   .help .wrap{justify-content:center;font-size:.8rem}
   header .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding-top:8px;padding-bottom:10px;min-height:0}
   .tools{display:contents}
+  nav{display:none!important;order:5;flex:1 1 100%;flex-direction:column;gap:0;padding-top:4px}
+  body[data-mode="centro"].nav-open nav[data-view="centro"],
+  body[data-mode="doctora"].nav-open nav[data-view="doctora"]{display:flex!important}
+  nav a{display:block;padding:11px 2px;font-size:1rem;border-bottom:0}
+  nav a.on{border-color:transparent}
+  .menu-t{display:inline-block;order:3}
   .brand{order:1;flex:1 1 0;min-width:0;font-size:.95rem;line-height:1.2}
   .tools > .switch.lang{order:2}
-  .tools > .switch:not(.lang){order:3;flex:1 1 100%;display:flex}
+  .tools > .switch:not(.lang){order:4;flex:1 1 100%;display:flex}
   .tools > .switch:not(.lang) button{flex:1}
   .stats{gap:10px}
   .stats div{padding:12px}
@@ -190,13 +197,14 @@ body.hc[data-mode="doctora"]{--accent:#5A0F3F}
       <a href="#sobre" data-i="n_sobre">Sobre mí</a><a href="#trayectoria" data-i="n_tray">Trayectoria</a><a href="#contacto-doctora" data-i="n_cont2">Contacto</a>
     </nav>
     <div class="tools">
+      <button type="button" class="menu-t" id="menu-t" aria-expanded="false" data-i="m_t">Menú</button>
       <div class="switch lang" role="group" aria-label="Idioma / Language">
         <button type="button" data-lang="en" aria-pressed="false">EN</button>
         <button type="button" data-lang="es" aria-pressed="true">ES</button>
       </div>
       <div class="switch" role="group" aria-label="Sitio / Site">
         <button type="button" data-set="centro" aria-pressed="true" data-i="sw_c">Centro</button>
-        <button type="button" data-set="doctora" aria-pressed="false">Dra. Acosta</button>
+        <button type="button" data-set="doctora" aria-pressed="false" data-i="sw_d">Dra. Acosta</button>
       </div>
     </div>
   </div>
@@ -314,9 +322,9 @@ body.hc[data-mode="doctora"]{--accent:#5A0F3F}
 </div>
 
 <!-- ============ DOCTORA ============ -->
-<div data-view="doctora">
+<div data-view="doctora" id="doctora">
   <div class="wrap hero hero-grid"><div>
-    <h1>Dra. Ana Acosta</h1>
+    <h1 data-i="d_h1">Dra. Ana Acosta</h1>
     <p data-i="d_p">Médica y propietaria de Advance Medical Research Center en Miami. Más de una década dedicada a acercar la investigación clínica a su comunidad.</p>
     <div class="btns">
       <a class="btn" href="#contacto-doctora" data-i="d_b1">Contactar</a>
@@ -379,18 +387,34 @@ body.hc[data-mode="doctora"]{--accent:#5A0F3F}
 
 <div class="a11y" role="group" aria-label="Accesibilidad / Accessibility"><button type="button" class="a11y-t" aria-label="Accesibilidad / Accessibility" aria-expanded="false">Aa</button><button type="button" data-a="-" aria-label="A−">A−</button><button type="button" data-a="+" aria-label="A+">A+</button><button type="button" data-a="hc" aria-pressed="false" aria-label="Contraste / Contrast">◐</button></div>
 
-<footer><div class="wrap">© <span id="y"></span> Advance Medical Research Center · Dra. Ana Acosta · Miami, Florida<br><small>Fotos / Photos: Vitaly Gariev, National Cancer Institute, Zoshua Colah / <a href="https://unsplash.com" rel="noopener">Unsplash</a></small></div></footer>
+<footer><div class="wrap">© <span id="y"></span> Advance Medical Research Center · <span data-i="ft_d">Dra. Ana Acosta</span> · Miami, Florida<br><small>Fotos / Photos: Vitaly Gariev, National Cancer Institute, Zoshua Colah / <a href="https://unsplash.com" rel="noopener">Unsplash</a></small></div></footer>
 
 <script>
 (function(){
   var body=document.body, html=document.documentElement;
   var modeBtns=document.querySelectorAll('[data-set]'), langBtns=document.querySelectorAll('[data-lang]');
+  var header=document.querySelector('header'), brand=document.getElementById('brand');
+  var menuBtn=document.getElementById('menu-t'), portrait=document.querySelector('.art.portrait svg');
+  var metaDesc=document.querySelector('meta[name="description"]');
   var titles={centro:'Advance Medical Research Center',doctora:'Dra. Ana Acosta'};
+  var titlesEN={centro:'Advance Medical Research Center',doctora:'Dr. Ana Acosta'};
+  var descs={
+    es:'Advance Medical Research Center · Miami, FL. Estudios de investigación clínica. Dra. Ana Acosta.',
+    en:'Advance Medical Research Center · Miami, FL. Clinical research studies. Dr. Ana Acosta.'
+  };
+  var a11yLabels={
+    es:{'-':'A−: reducir texto','+':'A+: aumentar texto',hc:'Alto contraste'},
+    en:{'-':'A−: decrease text size','+':'A+: increase text size',hc:'High contrast'}
+  };
   var nodes=document.querySelectorAll('[data-i]'), ES={};
   nodes.forEach(function(n){ES[n.dataset.i]=n.innerHTML});
 
   var EN={
     sw_c:'Center',
+    sw_d:'Dr. Acosta',
+    d_h1:'Dr. Ana Acosta',
+    ft_d:'Dr. Ana Acosta',
+    m_t:'Menu',
     n_inv:'Research',
     s_f0:'Role',
     s_f0v:'Owner and president of Advance Medical Research Center',
@@ -494,6 +518,9 @@ body.hc[data-mode="doctora"]{--accent:#5A0F3F}
     var d=l==='en'?EN:ES;
     nodes.forEach(function(n){var k=n.dataset.i; if(d[k]!==undefined) n.innerHTML=d[k]});
     html.lang=l;
+    metaDesc.content=descs[l];
+    portrait.setAttribute('aria-label',(l==='en'?titlesEN:titles).doctora);
+    document.querySelectorAll('[data-a]').forEach(function(b){b.setAttribute('aria-label',a11yLabels[l][b.dataset.a])});
     langBtns.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===l))});
     try{localStorage.setItem('lang',l)}catch(e){}
     updateTitle();
@@ -501,16 +528,50 @@ body.hc[data-mode="doctora"]{--accent:#5A0F3F}
   function curMode(){return body.getAttribute('data-mode')}
   function updateTitle(){
     var m=curMode(), en=html.lang==='en';
-    document.getElementById('brand').textContent=titles[m];
-    document.title=titles[m]+(m==='centro'?' · Miami':(en?' · Physician':' · Médica'));
+    var name=(en?titlesEN:titles)[m];
+    brand.textContent=name;
+    document.title=name+(m==='centro'?' · Miami':(en?' · Physician':' · Médica'));
+  }
+  function measureHeader(){html.style.setProperty('--hdr',header.offsetHeight+'px')}
+  function closeMenu(){
+    body.classList.remove('nav-open');
+    menuBtn.setAttribute('aria-expanded','false');
+    measureHeader();
+  }
+  /* El hash decide la vista si apunta a algo dentro de una vista; #top y similares no deciden. */
+  function modeFromHash(){
+    var el=location.hash?document.getElementById(location.hash.slice(1)):null;
+    var v=el&&el.closest('[data-view]');
+    return v?v.dataset.view:null;
   }
   function setMode(m,push){
     body.setAttribute('data-mode',m);
     modeBtns.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.set===m))});
-    try{localStorage.setItem('modo',m)}catch(e){}
+    brand.setAttribute('href',m==='doctora'?'#doctora':'#top');
+    closeMenu();
     updateTitle();
-    if(push){history.replaceState(null,'',m==='doctora'?'#doctora':location.pathname);window.scrollTo(0,0)}
+    if(push){history.replaceState(null,'',m==='doctora'?'#doctora':location.pathname);window.scrollTo({top:0,behavior:'instant'})}
   }
+  window.addEventListener('hashchange',function(){
+    var m=modeFromHash();
+    if(!m&&location.hash)return;
+    m=m||'centro';
+    if(m===curMode())return;
+    setMode(m,false);
+    var el=document.getElementById(location.hash.slice(1));
+    if(el)el.scrollIntoView({behavior:'instant'}); else window.scrollTo({top:0,behavior:'instant'});
+  });
+  menuBtn.addEventListener('click',function(){
+    var o=body.classList.toggle('nav-open');
+    menuBtn.setAttribute('aria-expanded',String(o));
+    measureHeader();
+  });
+  document.querySelectorAll('nav a').forEach(function(a){a.addEventListener('click',closeMenu)});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&body.classList.contains('nav-open')){closeMenu();menuBtn.focus()}
+  });
+  if('ResizeObserver' in window)new ResizeObserver(measureHeader).observe(header);
+  else window.addEventListener('resize',measureHeader);
   modeBtns.forEach(function(b){b.addEventListener('click',function(){setMode(b.dataset.set,true)})});
   langBtns.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang)})});
 
@@ -537,12 +598,10 @@ body.hc[data-mode="doctora"]{--accent:#5A0F3F}
   var tg=document.querySelector('.a11y-t');
   tg.addEventListener('click',function(){var o=this.parentNode.classList.toggle('open');this.setAttribute('aria-expanded',String(o))});
 
-  var mode='centro', lang=null;
-  try{lang=localStorage.getItem('lang')}catch(e){}
+  var lang=null;
+  try{lang=localStorage.getItem('lang');localStorage.removeItem('modo')}catch(e){}
   if(!lang) lang=(navigator.language||'es').slice(0,2)==='en'?'en':'es';
-  if(location.hash==='#doctora') mode='doctora';
-  else if(location.hash===''){try{mode=localStorage.getItem('modo')||'centro'}catch(e){}}
-  setMode(mode==='doctora'?'doctora':'centro',false);
+  setMode(modeFromHash()||'centro',false);
   setLang(lang==='en'?'en':'es');
   document.getElementById('y').textContent=new Date().getFullYear();
 
@@ -555,7 +614,8 @@ body.hc[data-mode="doctora"]{--accent:#5A0F3F}
     document.querySelectorAll('nav[data-view]').forEach(function(nav){
       if(getComputedStyle(nav).display==='none')return;
       var cur=null, links=nav.querySelectorAll('a[href^="#"]');
-      links.forEach(function(a){var sec=document.querySelector(a.getAttribute('href'));if(sec&&sec.getBoundingClientRect().top<=140)cur=a});
+      var line=header.offsetHeight+40;
+      links.forEach(function(a){var sec=document.querySelector(a.getAttribute('href'));if(sec&&sec.getBoundingClientRect().top<=line)cur=a});
       links.forEach(function(a){a.classList.toggle('on',a===cur)});
     });
     tick=false;

@@ -12,11 +12,11 @@ Always respond to the user in Spanish.
 
 ## Working with `index.html`
 
-Line 334 holds a base64 JPEG (the doctor's portrait) and is about 78 KB long. Avoid printing it: read the file in ranges that skip it, and truncate shell output (e.g. `cut -c1-260`). `Grep` matches on that line can be huge too.
+The `<image href="data:image/jpeg...` line holds the doctor's portrait as base64 and is about 78 KB long. Avoid printing it: read the file in ranges that skip it, and truncate shell output (e.g. `cut -c1-260`). `Grep` matches on that line can be huge too.
 
 ## Architecture
 
-**Two sites in one page.** `body[data-mode]` is `centro` or `doctora`. Elements with `data-view="centro|doctora"` are shown or hidden purely by CSS, and `doctora` mode also swaps the color tokens, so theming goes through the `:root` custom properties. `setMode()` updates the attribute, page title, and brand text. Initial mode comes from the URL hash (`#doctora`), then `localStorage.modo`, unless some other hash is present, in which case it falls back to `centro`.
+**Two sites in one page.** `body[data-mode]` is `centro` or `doctora`. Elements with `data-view="centro|doctora"` are shown or hidden purely by CSS, and `doctora` mode also swaps the color tokens, so theming goes through the `:root` custom properties. `setMode()` updates the attribute, page title, and brand text. The URL hash decides the mode when it points inside a `data-view` block (`modeFromHash()`), including `#doctora`, which is that block's id; otherwise the page opens in `centro`. The mode is deliberately not persisted, so returning patients land on the center. A `hashchange` listener keeps mode and URL in sync.
 
 **Translation.** Spanish is the source text and lives in the HTML. Any element with `data-i="key"` has its `innerHTML` captured into the `ES` map at load, and `setLang()` swaps in values from the hand-written `EN` object in the script.
 - Text changes must be made in both places: the HTML (ES) and `EN`.
