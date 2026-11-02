@@ -80,8 +80,9 @@ footer p+p{margin-top:8px}
   .help{padding-left:12px;padding-right:48px}
   .bar{gap:10px 8px;padding-top:14px;padding-bottom:14px}
   .brand{flex:1 1 100%;margin-right:0}
-  .sw a,.sw button{padding:8px 10px}
-  .menu-t{display:inline-block;order:3;margin-left:auto;padding:0 14px}
+  .sw{padding:3px}
+  .sw a,.sw button{padding:8px 8px;font-size:.9375rem}
+  .menu-t{display:inline-block;order:3;margin-left:auto;padding:0 12px;font-size:.9375rem}
   .sw.site{order:2}
   .links{display:none;order:4;flex:1 1 100%;flex-direction:column;align-items:flex-start;gap:0}
   body.nav-open .links{display:flex}
